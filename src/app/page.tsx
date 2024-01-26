@@ -5,7 +5,7 @@ import { fetchUser } from "@/functions/fetcingData";
 import { useState } from "react";
 
 export default function Home() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   // handle click
   const handleClick = (e) => {
@@ -13,15 +13,15 @@ export default function Home() {
     const name = e.target.search.value;
     fetchUser(name)
       .then((res) => {
-        setUser(res);
-        console.log(user);
+        setUser(res.data);
+        // console.log(user);
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12 bg-[18081f]">
+    <main className="flex min-h-screen flex-col items-center justify-between pt-5  bg-[18081f]">
       <form className="relative" onSubmit={(e) => handleClick(e)}>
         <label className="sr-only"> Search </label>
 
@@ -54,7 +54,9 @@ export default function Home() {
         </button>
       </form>
       {/* profile section */}
-      <Profile />
+      <div>
+      {user ? <Profile user={user} /> : <></>}
+      </div>
     </main>
   );
 }
