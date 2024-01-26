@@ -1,9 +1,24 @@
 "use client";
+
+import Profile from "@/components/Profile";
+import { fetchUser } from "@/functions/fetcingData";
+import { useState } from "react";
+
 export default function Home() {
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(false);
   // handle click
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("clicked");
+    const name = e.target.search.value;
+    fetchUser(name)
+      .then((res) => {
+        setUser(res);
+        console.log(user);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-12 bg-[18081f]">
@@ -38,6 +53,8 @@ export default function Home() {
           </svg>
         </button>
       </form>
+      {/* profile section */}
+      <Profile />
     </main>
   );
 }
